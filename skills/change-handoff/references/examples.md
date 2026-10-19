@@ -7,7 +7,9 @@ These are fictional examples, not executed checks or evidence for a real task.
 Request: prevent duplicate order submission from rapid clicks. The task starts
 at commit A, advances through B and C, and ends with uncommitted error handling.
 
-Maintain one record with base A and observed HEAD C. State that the working tree
+Maintain one local notes file with base A and observed HEAD C, with short
+checkpoints for successful commits B and C. Push creates no extra file or report.
+Generate the report only when review is requested. State that the working tree
 also contains task-owned error handling. Explain the button lock at the submit
 handler, its release on failure, and the limitation that this does not establish
 server-side idempotency. If a double-click check ran at B, do not present it as a
@@ -36,8 +38,9 @@ uncertain. Git status establishes file state, not authorship.
 ## Finalized handoff becomes stale
 
 A report says timeout recovery passed at C. A later code edit changes timeout
-handling. Update the same task report and mark the earlier result stale until
-the relevant check is rerun. A correction only to report wording does not by
+handling. Update the notes and mark the existing report and earlier result stale.
+Rerun the relevant check and regenerate the report on the next review request.
+A correction only to report wording does not by
 itself invalidate code tests. A new unrelated task gets its own report even if
 it starts on the same branch.
 
@@ -55,3 +58,16 @@ An error log contains an access token. Record the sanitized error category and
 the relevant outcome, not the log. Keep video, screenshots, transcripts, and
 context JSON out of the permanent report by default. A link's availability and
 retention are limitations; do not imply linked evidence is permanently stored.
+
+## Setup and manual commits
+
+On first use, ensure `/.change-handoff/` is ignored before writing local notes.
+Already-tracked notes are not hidden by adding the rule; disclose that condition
+and do not remove them from Git automatically. If rule edits are forbidden, use
+an existing ignored location or state that notes are limited to the conversation.
+
+If a developer manually creates two commits, the skill may not have run. At the
+next invocation, reconcile both commits from available history and notes. Label
+unknown test execution as unknown. If one commit was amended, replace its old
+checkpoint identity when established, preserving still-valid decision evidence;
+do not silently treat the old SHA as reachable or reset the task base.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Change Handoff"
+  short_description: "Track coding changes and evidence for task-level review"
+  default_prompt: "Use $change-handoff to maintain this task's handoff and reconcile it with the final code and verification evidence."

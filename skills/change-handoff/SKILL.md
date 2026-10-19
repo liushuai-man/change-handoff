@@ -1,6 +1,6 @@
 ---
 name: change-handoff
-description: Keep lightweight local task notes during coding, checkpoint them at commits, and generate an evidence-based handoff only when review is requested. Use for tracking AI coding changes, commit handoff checkpoints, and preparing review reports. Does not replace code review, install Git hooks, or reconstruct unavailable history.
+description: On first use, offer manual invocation or project AGENTS.md integration, then keep lightweight task notes and commit checkpoints in the selected mode. Generate an evidence-based handoff only when review is requested. Use for tracking AI coding changes and preparing review reports. Does not replace code review, install Git hooks, or reconstruct unavailable history.
 ---
 
 # Change handoff
@@ -9,6 +9,48 @@ Keep development lightweight: maintain local notes without requesting routine
 input, and generate a human-facing report only when review is requested. Match
 the user's language and repository conventions. Record facts, material decisions,
 and evidence, not private reasoning, raw transcripts, or a tool-by-tool diary.
+
+## First use: offer a mode
+
+Before task recording, read project instructions and `.change-handoff/config.json`
+if present. Reuse a valid saved mode or an existing explicit project/user choice.
+Notes files alone do not establish a mode. For an unconfigured project, proactively
+ask once, in the user's language, with these two choices:
+
+> How should this project use change-handoff?
+> 1. Automatic (recommended): add a rule to this project's AGENTS.md; agents keep
+>    local notes and commit checkpoints without repeated invocation.
+> 2. Manual: record only when you explicitly invoke change-handoff; leave AGENTS.md unchanged.
+
+Use a supported choice UI when available, otherwise ask in chat. Wait for the
+answer before saving a mode or editing project rules. Do not default to automatic
+because time passed or the user did not answer. Independent requested work may
+continue. An explicit mode choice already given in the request needs no repeat.
+
+After selection, ensure the local directory is ignored as described below and
+save `.change-handoff/config.json` with `schema_version: 1` and `mode: "manual"`
+or `mode: "agent"`. Preserve unrelated settings. In automatic mode, also save
+`agent_file: "AGENTS.md"` only after the project rule is successfully written.
+Use [the project rule](assets/agents-rule.md), replacing its path prompt with the
+verified installed skill's absolute SKILL.md path. Merge one marked block into
+the repository-root AGENTS.md; create the file if absent. Preserve all unrelated
+instructions and update an existing matching block instead of appending duplicates.
+The user's automatic choice authorizes this project-scoped edit; no second
+confirmation is needed. Do not edit global instructions or commit/push settings.
+
+On later invocations, do not ask again unless the user requests a mode change or
+saved settings conflict with project rules. Manual mode must not start recording
+merely because the skill was implicitly selected: require explicit invocation or
+an ongoing explicitly enabled task. Automatic mode follows the project rule.
+If setup cannot persist settings or write its rule, disclose the failure and do
+not claim automatic setup succeeded. If the referenced installation later moves
+or disappears, report it and repair only from a verified skill location.
+
+When switching to manual, remove only this skill's marked automatic rule and
+save manual mode; preserve other instructions. An unmarked existing rule that
+still requires automatic tracking needs reconciliation, not a conflicting setting.
+Report setup completion once, then keep normal recording unobtrusive. Installation
+alone cannot offer this prompt: it appears when the skill first runs in a project.
 
 ## Establish scope and destination
 
@@ -30,9 +72,10 @@ would mix unrelated work or select the wrong comparison base.
   only on request. Honor a requested chat-only, tracked-document, or PR destination.
   Preserve unrelated PR text and use authorized tools; otherwise keep a local
   draft and state that remote delivery remains outstanding.
-- Do not create a PR, publish, commit notes, install hooks, edit agent settings,
-  or delete historical notes as a side effect. External actions follow the user's
-  authorization. Installation alone does not guarantee automatic invocation.
+- Do not create a PR, publish, commit notes, install hooks, edit agent settings
+  beyond the chosen project setup, or delete historical notes as a side effect.
+  External actions follow the user's authorization. Automatic mode relies on
+  the host loading and following AGENTS.md; it is not a Git event listener.
 
 Use [task notes](assets/task-notes-template.md) during development and
 [the report template](assets/handoff-template.md) at review time. Fill only

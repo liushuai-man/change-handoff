@@ -1,4 +1,4 @@
 interface:
   display_name: "Change Handoff"
   short_description: "Keep local coding notes; generate reports when reviewing"
-  default_prompt: "Use $change-handoff to keep lightweight local notes, checkpoint commits, and generate a handoff only when I request review."
+  default_prompt: "Use $change-handoff; if this project is not configured, offer automatic AGENTS.md integration or manual invocation first."

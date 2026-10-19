@@ -2,6 +2,27 @@
 
 These are fictional examples, not executed checks or evidence for a real task.
 
+## First-use choices
+
+In a new project, the user says "Use change-handoff" without a mode. Offer
+automatic/manual choices before changing AGENTS.md or persisting a preference.
+No answer means no chosen mode, not consent to automatic setup.
+
+If automatic is selected, merge the marked rule with the verified installed skill
+path, preserve existing project instructions, then save agent mode. Repeating
+setup must not duplicate the rule. If manual is selected, save manual mode and
+leave AGENTS.md unchanged; future implicit selection must not enable recording.
+Either mode records normal coding without generating a review report.
+
+On a new session, reuse the valid saved choice without asking again. A project
+already explicitly requiring automatic use also has a choice; notes without a
+mode or rule do not. If writing AGENTS.md fails, do not save successful automatic
+setup or claim it works. Report the incomplete setup.
+
+Switching from the marked automatic rule to manual removes only that block and
+preserves other project rules. If an unmarked rule still requires automatic use,
+resolve the conflict rather than claiming manual mode overrides it silently.
+
 ## Ongoing task with many commits
 
 Request: prevent duplicate order submission from rapid clicks. The task starts
